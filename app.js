@@ -2,7 +2,7 @@
 
 /*-------------------------------- Variables --------------------------------*/
 
-let firstValue = null;
+let firstValue = 0;
 let secondValue = null;
 let operation = null;
 let calculationDone = false;
@@ -35,7 +35,8 @@ buttons.forEach((button) => {
 /*-------------------------------- Functions --------------------------------*/
 
 function handleNumber(num) {
-  num = Number(num); 
+  // Convert the input string to a number
+  num = Number(num);
 
   if (calculationDone) {
     // Reset the calculator if a new number is entered after calculation
@@ -44,20 +45,24 @@ function handleNumber(num) {
     operation = null;
     calculationDone = false;
   } else {
+    // Handle first number input
     if (operation === null) {
-      if (firstValue !== null) {
-        firstValue = firstValue * 10 + num;
-      } else {
+      // Build numbers with more than 1 digit for first value
+      if (firstValue === 0) {
         firstValue = num;
+      } else {
+        firstValue = firstValue * 10 + num;
       }
-    } else {
+    } else { // Handle second number input
       if (secondValue !== null) {
+        // Build numbers with more than 1 digit for second value
         secondValue = secondValue * 10 + num;
       } else {
         secondValue = num;
       }
     }
   }
+  // Create the display text showing current calculation state
   let displayText = `${firstValue}`;
   if (operation !== null) {
     displayText += ` ${operation}`;
@@ -65,6 +70,7 @@ function handleNumber(num) {
   if (secondValue !== null) {
     displayText += ` ${secondValue}`;
   }
+  // Update the calculator display
   displayElement.innerText = displayText;
 }
 
@@ -101,7 +107,10 @@ function calculateResult() {
         break;
     }
 
+    // Update display with result
     displayElement.innerText = result;
+
+    // Set up calculator for potential new calculation
     firstValue = result;
     secondValue = null;
     operation = null;
@@ -110,7 +119,7 @@ function calculateResult() {
 }
 
 function clearCalculator() {
-  firstValue = null;
+  firstValue = 0;
   secondValue = null;
   operation = null;
   calculationDone = false;
